@@ -12,14 +12,18 @@ fn main() {
 
 fn create_client() {
     let mut stream = TcpStream::connect("127.0.0.1:7878").map_err(|err| {
-        println!("Could not connect to server: {}", err);
+        eprintln!("Could not connect to server: {}", err);
         err
     }).unwrap();
 
     stream.write("Hello!".as_bytes()).map_err(|err| {
-        println!("Could not write to server: {}", err);
+        eprintln!("Could not write to server: {}", err);
         err
     }).unwrap();
+
+    let mut buff = vec![0; 4096];
+    println!("{:?}", stream.read(&mut buff));
+    println!("{}", String::from_utf8_lossy(&buff));
 }
 
 fn create_server() {
@@ -29,13 +33,16 @@ fn create_server() {
         match stream {
             Ok(stream) => handle_client(stream),
             Err(ref e) => {
-                println!("{:?}", e);
+                eprintln!("{:?}", e);
                 continue;
             }
         }
     }
 }
 
-fn handle_client(stream: TcpStream) {
+fn handle_client(mut stream: TcpStream) {
     println!("Connection from {}", stream.peer_addr().unwrap());
+    writeln!(stream, "Hello fromm server!").map_err(|err| {
+        eprintln!("Could not write to server: {}", err);
+    }).unwrap();
 }
