@@ -1,4 +1,3 @@
-
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 
@@ -26,8 +25,17 @@ fn handle_client(mut stream: TcpStream) {
         let mut buffer = [0; 1024];
         let status = stream.read(&mut buffer).map_err(|e| eprintln!("{:?}", e));
         match status {
-            Ok(0) => {println!("{:?}", String::from_utf8_lossy(&buffer))},
-            _ => {}
+            Ok(0) => {
+                println!("Client disconnected");
+                break;
+            }
+            Ok(n) => {
+                println!("Received: {:?}", String::from_utf8_lossy(&buffer[..n]));
+            }
+            Err(e) => {
+                eprintln!("Read error: {:?}", e);
+                break;
+            }
         }
     }
 }

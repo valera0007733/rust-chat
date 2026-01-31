@@ -1,4 +1,4 @@
-use std::io::{Read, Write, stdin};
+use std::io::{Write, stdin};
 use std::net::TcpStream;
 
 pub fn connect_to_server() {
@@ -10,14 +10,14 @@ pub fn connect_to_server() {
         .unwrap();
 
     loop {
-        let mut buff = vec![0; 4096];
-        let read = stream.read(&mut buff);
-        match read {
-            Ok(_) => {
-                println!("{}", String::from_utf8_lossy(&buff))
-            }
-            Err(e) => {eprintln!("Could not read from server: {}", e)}
-        }
+        // let mut buff = vec![0; 4096];
+        // let read = stream.read(&mut buff);
+        // match read {
+        //     Ok(_) => {
+        //         println!("{}", String::from_utf8_lossy(&buff))
+        //     }
+        //     Err(e) => {eprintln!("Could not read from server: {}", e)}
+        // }
 
         let mut input = String::new();
         stdin().read_line(&mut input).expect("Failed to read line");
