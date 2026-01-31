@@ -1,8 +1,8 @@
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 
-pub fn create_server() {
-    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+pub fn create_server(address: &str) {
+    let listener = TcpListener::bind(address).unwrap();
 
     for stream in listener.incoming() {
         match stream {

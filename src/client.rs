@@ -1,8 +1,8 @@
 use std::io::{Write, stdin};
 use std::net::TcpStream;
 
-pub fn connect_to_server() {
-    let mut stream = TcpStream::connect("127.0.0.1:7878")
+pub fn connect_to_server(address: &str) {
+    let mut stream = TcpStream::connect(address)
         .map_err(|err| {
             eprintln!("Could not connect to server: {}", err);
             err
