@@ -1,17 +1,18 @@
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
+use std::thread;
 
 pub fn create_server(address: &str) {
     let listener = TcpListener::bind(address).unwrap();
 
     for stream in listener.incoming() {
         match stream {
-            Ok(stream) => handle_client(stream),
+            Ok(stream) => thread::spawn( || handle_client(stream)),
             Err(e) => {
                 eprintln!("{:?}", e);
                 continue;
             }
-        }
+        };
     }
 }
 
