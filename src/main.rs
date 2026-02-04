@@ -1,4 +1,3 @@
-use std::io::prelude::*;
 mod server;
 mod client;
 
