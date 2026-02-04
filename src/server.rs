@@ -9,7 +9,7 @@ pub fn create_server(address: &str) {
         match stream {
             Ok(stream) => thread::spawn( || handle_client(stream)),
             Err(e) => {
-                eprintln!("{:?}", e);
+                eprintln!("Could not accept connection from client: {:?}", e);
                 continue;
             }
         };

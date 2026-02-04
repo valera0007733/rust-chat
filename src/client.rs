@@ -11,13 +11,22 @@ pub fn connect_to_server(address: &str) {
 
     loop {
         let mut input = String::new();
-        stdin().read_line(&mut input).expect("Failed to read line");
-        stream
-            .write(input.as_bytes())
-            .map_err(|err| {
+        let read_result = stdin().read_line(&mut input);
+        match read_result {
+            Err(err) => {
+                eprintln!("Could not read from stdin: {}", err);
+                continue;
+            }
+            _ => {}
+        }
+
+        let write_result = stream.write(input.as_bytes());
+        match write_result {
+            Err(err) => {
                 eprintln!("Could not write to server: {}", err);
-                err
-            })
-            .unwrap();
+                continue;
+            }
+            _ => {}
+        }
     }
 }
